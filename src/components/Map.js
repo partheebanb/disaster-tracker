@@ -2,10 +2,10 @@ import GoogleMapReact from 'google-map-react';
 import FireMarker from './FireMarker';
 
 
-const Map = ({eventdata, center, zoom}) => {
-    const fireMarkers = eventdata.map(ev => {
+const Map = ({eventData, center, zoom}) => {
+    const fireMarkers = eventData.map(ev => {
         if(ev.categories[0].id === 8) {
-            return <FireMarker lat={ev.lat} lng={ev.lng}/>
+            return <FireMarker lat={ev.geometries[0].coordinates[1]} lng={ev.geometries[0].coordinates[0]}/>
         }
     })
 
@@ -15,9 +15,9 @@ const Map = ({eventdata, center, zoom}) => {
             <GoogleMapReact
                 defaultCenter= {center}
                 defaultZoom={zoom}
-                bootstrapURLKeys={{ key: ''}}
+                bootstrapURLKeys={{ key: 'AIzaSyALst5zQjrGs4RdjhK8-UdIGYd7KxhkTbg'}}
             >
-                <FireMarker lat={center.lat} lng={center.lng}/>
+                {fireMarkers}
             </GoogleMapReact>
         </div>
     )
