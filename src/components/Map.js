@@ -1,12 +1,39 @@
 import GoogleMapReact from 'google-map-react';
 import FireMarker from './FireMarker';
-
+import VolcanoMarker from './VolcanoMarker';
+import DustMarker from './DustMarker';
+import FloodMarker from './FloodMarker';
+import StormMarker from './StormMarker';
+import IceMarker from './IceMarker';
 
 const Map = ({eventData, center, zoom}) => {
-    const fireMarkers = eventData.map(ev => {
-        if(ev.categories[0].id === 8) {
-            return <FireMarker lat={ev.geometries[0].coordinates[1]} lng={ev.geometries[0].coordinates[0]}/>
+    const locationMarkers = eventData.map(ev => {
+        let geo = ev.geometry[0].coordinates;
+        let id = ev.categories[0].id;
+
+        if(geo[0] !== undefined && geo[1] !== undefined) {
+
+            if(id === 'wildfires') {
+                return <FireMarker lat={geo[1]} lng={geo[0]}/>
+
+            } else if(id === 'volcanoes') {
+                return <VolcanoMarker lat={geo[1]} lng={geo[0]}/>
+
+            } else if (id === 'dustHaze') {
+                return <DustMarker lat={geo[1]} lng={geo[0]}/>
+
+            } else if (id === 'floods') {
+                return <FloodMarker lat={geo[1]} lng={geo[0]}/>
+
+            } else if (id === 'seaLakeIce') {
+                return <IceMarker lat={geo[1]} lng={geo[0]}/>
+
+            } else if (id === 'severeStorms') {
+                return <StormMarker lat={geo[1]} lng={geo[0]}/>
+            }
+                
         }
+
     })
 
 
@@ -15,9 +42,10 @@ const Map = ({eventData, center, zoom}) => {
             <GoogleMapReact
                 defaultCenter= {center}
                 defaultZoom={zoom}
-                bootstrapURLKeys={{ key: 'AIzaSyALst5zQjrGs4RdjhK8-UdIGYd7KxhkTbg'}}
+                bootstrapURLKeys={{ key: 'AIzaSyB3coJPSajZSaWRtm1vsh9mrzksvoEg6vU'}}
             >
-                {fireMarkers}
+                {locationMarkers}
+
             </GoogleMapReact>
         </div>
     )
